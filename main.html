@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<canvas id="myCanvas" width="900" height="600" style="border:1px solid #000;"></canvas>
+</body>
+<script type="text/javascript" src="script.js"></script>
+<script type="text/javascript">
+    window.onload = function() {
+    var canvas = document.getElementById('myCanvas');
+    var context = canvas.getContext('2d');
+
+    context.translate(200, 300)
+
+    var tree = new Tree(0.9, 6);
+
+
+
+    requestAnimationFrame(mainLoop);
+
+    //Game Loop
+    function mainLoop() {
+        update();
+        draw();
+        
+        requestAnimationFrame(mainLoop); //keep reiterating through this loop
+    }
+    
+    //Here is where we would update the state of our game or simulation (e.g., make the copters move).
+    function update() {
+        tree.update();
+    }
+    
+    //Draw the scene. Here we simply erase what was previously drawn (e.g., where the copters used to be), then draw it again
+    function draw() {
+        
+        //clear our drawing
+        context.clearRect(-0.5*canvas.width, canvas.height, canvas.width, -2*canvas.height);
+        //save the coordinate frame (in case we wanted to draw other things after the copters)
+        context.save();
+        //draw each copter
+        tree.draw(context);
+        //restore the coordinate frame (in case we wanted to draw other things)
+        context.restore();
+    }
+
+}</script>
+<head>
+  <meta name="description" content="Peaceful tree">
+  <meta charset="utf-8">
+  <title>Peaceful tree</title>
+</head>
+</html>
